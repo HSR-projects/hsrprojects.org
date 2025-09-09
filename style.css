@@ -1,0 +1,65 @@
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; line-height: 1.6; background: #111; color: #eee; }
+
+/* Header */
+header {
+  background: #000;
+  padding: 1rem 0;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: auto;
+  padding: 0 20px;
+}
+header h1 { color: #4FC3F7; }
+header nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #eee;
+}
+header nav a:hover { color: #4FC3F7; }
+
+/* Hero */
+.hero {
+  background: url('https://picsum.photos/1600/900?grayscale') no-repeat center center/cover;
+  color: #fff;
+  text-align: center;
+  padding: 120px 20px;
+}
+.hero h2 { font-size: 2.5rem; margin-bottom: 20px; }
+.hero p { font-size: 1.2rem; margin-bottom: 30px; }
+.btn {
+  background: #4FC3F7;
+  padding: 12px 25px;
+  color: #000;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.btn:hover { background: #0288D1; color: #fff; }
+
+/* About */
+.about {
+  background: #222;
+  padding: 60px 20px;
+  text-align: center;
+}
+.about img {
+  margin-top: 20px;
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+/* Footer */
+footer {
+  background: #000;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+}
+footer a { color: #4FC3F7; }
+footer a:hover { text-decoration: underline; }
