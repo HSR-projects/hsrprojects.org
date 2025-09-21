@@ -21,7 +21,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SaturnOS — Hyprland Inspired (Interactive Hover Previews)</title>
+  <title>HSR projects</title>
   <meta name="description" content="Interactive Hyprland-style landing page — hover any nav item or tile to reveal floating 'window' previews with W and Saturn logos."/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -102,10 +102,10 @@
   <header>
     <div class="nav">
       <div class="brand">
-        <div class="logo">S</div>
+        <div class="logo">HSR</div>
         <div style="line-height:1">
-          <div style="font-weight:800">Saturn</div>
-          <div style="font-size:12px;color:var(--muted)">Hyprland-style demo</div>
+          <div style="font-weight:800">HSR projects</div>
+          <div style="font-size:12px;color:var(--muted)">HSR-projects</div>
         </div>
       </div>
 
@@ -118,7 +118,7 @@
 
       <div style="display:flex;gap:8px;align-items:center">
         <button class="btn ghost">Support</button>
-        <button class="install">INSTALL</button>
+        <button class="install" herf="https://github.com/HSR-projects">Github</button>
       </div>
     </div>
   </header>
@@ -126,17 +126,17 @@
   <main>
     <section class="hero">
       <div>
-        <div class="eyebrow">Wayland • Dynamic Tiling • Smooth Animations</div>
-        <h1>Modern compositor <span style="background:linear-gradient(90deg,var(--cyan),#9df);-webkit-background-clip:text;background-clip:text;color:transparent">with the looks</span></h1>
-        <p class="lead">Saturn provides advanced Wayland features, dynamic tiling, eye candy, and powerful plugins — while staying lightweight and responsive.</p>
+        <div class="eyebrow">Open-source no closed-source code </div>
+        <h1>No trackers. <span style="background:linear-gradient(90deg,var(--cyan),#9df);-webkit-background-clip:text;background-clip:text;color:transparent">with the looks</span></h1>
+        <p class="lead">HSR-projects 100% Open Source.</p>
         <div class="actions" style="margin-top:18px">
-          <button class="btn primary">Download</button>
+          <button class="btn primary" herf="https://github.com/HSR-projects">Github</button>
           <button class="btn ghost">Wiki</button>
         </div>
 
         <div style="margin-top:28px;display:flex;gap:12px;max-width:760px">
           <div class="card" style="flex:1" data-preview="both">
-            <strong>Dynamic Tiling</strong>
+            <strong>Dynamic Tiling on our future OS</strong>
             <p style="color:var(--muted);margin-top:6px">Layouts that adapt to your workflow.</p>
             <!-- inline saturn mark -->
             <svg class="logo-mark" viewBox="0 0 100 100">
@@ -182,10 +182,10 @@
     <section class="news">
       <h2 style="color:#fff">Latest News</h2>
       <div class="news-item" data-preview="both"><h4>Saturn v1.8</h4><p style="color:var(--muted)">Smoother animations and improved tiling rules.</p></div>
-      <div class="news-item" data-preview="saturn"><h4>Waybar Theme</h4><p style="color:var(--muted)">Neon bar to match your desktop.</p></div>
+      <div class="news-item" data-preview="saturn"><h4>Waybar Theme</h4><p style="color:var(--muted)">Neon bar to match your desktop on OUR future os.</p></div>
     </section>
 
-    <footer><div style="max-width:1280px;margin:0 auto;padding:36px 22px;color:var(--muted)">&copy; <span id="year"></span> Saturn — Hyprland-style demo</div></footer>
+    <footer><div style="max-width:1280px;margin:0 auto;padding:36px 22px;color:var(--muted)">&copy; <span id="year"></span> HSR projects</div></footer>
   </main>
 
   <!-- Floating preview window -->
@@ -200,8 +200,8 @@
         <!-- logos injected here -->
       </div>
       <div class="meta" id="preview-meta">
-        <div style="font-weight:800" id="preview-title">Saturn</div>
-        <div style="color:var(--muted);margin-top:6px;font-size:13px" id="preview-desc">A modern compositor</div>
+        <div style="font-weight:800" id="preview-title">HSR projects</div>
+        <div style="color:var(--muted);margin-top:6px;font-size:13px" id="preview-desc">100% open-source</div>
       </div>
     </div>
   </div>
@@ -251,7 +251,7 @@
         else if(kind === 'saturn') logosWrap.innerHTML = SVG_SATURN;
         else logosWrap.innerHTML = SVG_W + SVG_SATURN;
         // set meta
-        titleEl.textContent = el.querySelector('.title') ? el.querySelector('.title').textContent : (el.querySelector('h3') ? el.querySelector('h3').textContent : 'Saturn');
+        titleEl.textContent = el.querySelector('.title') ? el.querySelector('.title').textContent : (el.querySelector('h3') ? el.querySelector('h3').textContent : 'HSR projects');
         descEl.textContent = el.querySelector('p') ? el.querySelector('p').textContent : 'Preview of ' + titleEl.textContent;
         preview.classList.add('show');
       }
