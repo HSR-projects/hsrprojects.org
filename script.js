@@ -1,3 +1,10 @@
+/*
+    hsr-projects.github.io/hsrprojects.org
+    Copyright (C) 2025 Hsr-projects
+
+    Licensed under GNU GPL v3.
+*/
+
 // Small animation for smooth fade-in
 document.addEventListener("DOMContentLoaded", () => {
   const heroContent = document.querySelector(".hero-content");
