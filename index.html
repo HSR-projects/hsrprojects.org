@@ -16,6 +16,24 @@
     along with this project. If not, see <https://www.gnu.org/licenses/>.
 -->
 
+<!--
+    hsr-projects.github.io/hsrprojecrs.org
+    Copyright (C) 2025 Hsr-projects
+
+    This project is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This project is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this project. If not, see <https://www.gnu.org/licenses/>.
+-->
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -193,176 +211,23 @@
       <div class="news-item" data-preview="saturn"><h4>fixing current Waybar Theme</h4><p style="color:var(--muted)">Fixing the neon bar to us and user needs on OUR future OS.</p></div>
     </section>
 
-    <footer><div style="max-width:1280px;margin:0 auto;padding:36px 22px;color:var(--muted)">&copy; <span id="year"></span> HSR projects</div></footer>
+<!-- Laptop animation section added above footer -->
+<div id="gnomeLaptopWrapper" style="display:flex;justify-content:center;margin:24px 0;">
+  <div id="threedlid" class="full" style="transform: scale(0.4); transform-origin: center center;">
+    <img alt="Laptop Animation" src="/img/download.webp" id="noscriptmobile">
+  </div>
+  <script src="/js/three.min.js"></script>
+  <script src="/js/GLTFLoader.js"></script>
+  <script src="/js/3dlid.js"></script>
+</div>
+
   </main>
 
-  <!-- Floating preview window -->
-  <div id="preview" class="preview-window" aria-hidden="true">
-    <div class="preview-title">
-      <div class="preview-dots"><span style="background:#ff7d7d"></span><span style="background:#ffd166"></span><span style="background:#8ef08a"></span></div>
-      <div style="flex:1"></div>
-      <div style="color:var(--muted);font-weight:700;font-size:13px">Preview</div>
-    </div>
-    <div class="preview-body">
-      <div class="logo-wrap" id="preview-logos">
-        <!-- logos injected here -->
-      </div>
-      <div class="meta" id="preview-meta">
-        <div style="font-weight:800" id="preview-title">HSR projects</div>
-        <div style="color:var(--muted);margin-top:6px;font-size:13px" id="preview-desc">100% open-source</div>
-      </div>
-    </div>
-  </div>
+  <footer>
+    &copy; 2025 HSR projects
+  </footer>
 
-  <script>
-    // helper SVGs (W logo and Saturn logo) as strings
-    const SVG_W = `
-      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-        <defs>
-          <linearGradient id="gW" x1="0" x2="1"><stop offset="0" stop-color="#ffd166"/><stop offset="1" stop-color="#ff7d7d"/></linearGradient>
-        </defs>
-        <rect width="120" height="120" rx="16" fill="url(#gW)" opacity="0.06"/>
-        <g transform="translate(12,18)" fill="#fff">
-          <path d="M8 80 L26 14 L44 80 L62 14 L80 80 L100 10" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.98"/>
-        </g>
-      </svg>`;
-
-    const SVG_SATURN = `
-      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-        <defs>
-          <linearGradient id="gS" x1="0" x2="1"><stop offset="0" stop-color="#00e5ff"/><stop offset="1" stop-color="#7be3ff"/></linearGradient>
-        </defs>
-        <rect width="120" height="120" rx="16" fill="url(#gS)" opacity="0.06"/>
-        <g transform="translate(20,10)" fill="#fff">
-          <circle cx="40" cy="40" r="28" fill="url(#gS)"/>
-          <ellipse cx="40" cy="40" rx="52" ry="14" transform="rotate(-20 40 40)" fill="rgba(255,255,255,0.14)"/>
-        </g>
-      </svg>`;
-
-    // preview logic
-    (function(){
-      const preview = document.getElementById('preview');
-      const logosWrap = document.getElementById('preview-logos');
-      const titleEl = document.getElementById('preview-title');
-      const descEl = document.getElementById('preview-desc');
-      let activeEl = null;
-      let raf = null;
-      let mouse = {x:0,y:0};
-      let want = {x:0,y:0,rx:0,ry:0};
-      let cur = {x:0,y:0,rx:0,ry:0};
-
-      function showPreviewFor(el){
-        activeEl = el;
-        const kind = el.dataset.preview || 'both';
-        // set logos
-        if(kind === 'w') logosWrap.innerHTML = SVG_W;
-        else if(kind === 'saturn') logosWrap.innerHTML = SVG_SATURN;
-        else logosWrap.innerHTML = SVG_W + SVG_SATURN;
-        // set meta
-        titleEl.textContent = el.querySelector('.title') ? el.querySelector('.title').textContent : (el.querySelector('h3') ? el.querySelector('h3').textContent : 'HSR projects');
-        descEl.textContent = el.querySelector('p') ? el.querySelector('p').textContent : 'Preview of ' + titleEl.textContent;
-        preview.classList.add('show');
-      }
-
-      function hidePreview(){
-        activeEl = null; preview.classList.remove('show'); logosWrap.innerHTML = '';
-      }
-
-      function positionPreview(x,y){
-        want.x = x + 18; want.y = y + 18;
-        // flip if going off screen
-        const pw = preview.offsetWidth, ph = preview.offsetHeight;
-        if(want.x + pw > innerWidth) want.x = x - pw - 18;
-        if(want.y + ph > innerHeight) want.y = innerHeight - ph - 12;
-      }
-
-      function onMouseMove(e){
-        mouse.x = e.clientX; mouse.y = e.clientY;
-        if(activeEl) positionPreview(mouse.x, mouse.y);
-      }
-
-      document.addEventListener('mousemove', onMouseMove);
-
-      // attach hover listeners to elements that have data-preview
-      const watch = document.querySelectorAll('[data-preview]');
-      watch.forEach(el =>{
-        el.addEventListener('mouseenter', (ev)=>{ showPreviewFor(el); positionPreview(ev.clientX, ev.clientY); });
-        el.addEventListener('mouseleave', ()=>{ hidePreview(); });
-        // also update position while moving inside the element
-        el.addEventListener('mousemove', (ev)=>{ if(activeEl===el) positionPreview(ev.clientX, ev.clientY); });
-      });
-
-      // smooth animation loop for preview transform
-      function loop(){
-        cur.x += (want.x - cur.x) * 0.18;
-        cur.y += (want.y - cur.y) * 0.18;
-        // small tilt based on mouse relative to preview center
-        if(preview.classList.contains('show')){
-          const rect = preview.getBoundingClientRect();
-          const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2;
-          const dx = (mouse.x - cx) / rect.width; const dy = (mouse.y - cy) / rect.height;
-          want.rx = -dy * 6; want.ry = dx * 6;
-        } else { want.rx = 0; want.ry = 0; }
-        cur.rx += (want.rx - cur.rx) * 0.12; cur.ry += (want.ry - cur.ry) * 0.12;
-        preview.style.left = (cur.x|0) + 'px'; preview.style.top = (cur.y|0) + 'px';
-        preview.style.transform = `translate3d(0,0,0) rotateX(${cur.rx}deg) rotateY(${cur.ry}deg)`;
-        raf = requestAnimationFrame(loop);
-      }
-      loop();
-
-      // hide preview on scroll or resize (to avoid misplacement)
-      addEventListener('scroll', hidePreview, {passive:true});
-      addEventListener('resize', hidePreview);
-
-      // accessibility: hide previews on reduced-motion
-      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-        document.querySelectorAll('.preview-window').forEach(p=>p.style.display='none');
-      }
-    })();
-
-    // background neon grid
-    (function(){
-      const c = document.getElementById('bgCanvas'); const ctx = c.getContext('2d');
-      function resize(){ c.width = innerWidth; c.height = innerHeight; }
-      addEventListener('resize', resize); resize();
-      let t = 0;
-      function frame(){
-        t += 0.01; ctx.clearRect(0,0,c.width,c.height);
-        // subtle vignette
-        const g = ctx.createLinearGradient(0,0,c.width,0); g.addColorStop(0,'rgba(0,12,18,0.6)'); g.addColorStop(1,'rgba(0,0,0,0.6)'); ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height);
-        ctx.lineWidth = 1;
-        const cols = Math.max(8, Math.floor(c.width/160)); const rows = Math.max(4, Math.floor(c.height/160));
-        const cellW = c.width/cols; const cellH = c.height/rows;
-        for(let i=0;i<cols;i++){
-          for(let j=0;j<rows;j++){
-            const cx = i*cellW + cellW/2 + Math.sin(t + i*0.8 + j*0.6)*8;
-            const cy = j*cellH + cellH/2 + Math.cos(t + i*0.6 + j*0.8)*6;
-            const w = Math.max(80, cellW*0.7), h = Math.max(48, cellH*0.45);
-            // gradient stroke
-            const g2 = ctx.createLinearGradient(cx-w/2, cy-h/2, cx+w/2, cy+h/2);
-            g2.addColorStop(0, 'rgba(0,229,255,0.06)'); g2.addColorStop(1, 'rgba(255,107,181,0.03)'); ctx.strokeStyle = g2;
-            ctx.beginPath();
-            // rounded rect path
-            const rx = Math.min(18, w*0.12), ry = Math.min(12, h*0.12);
-            ctx.moveTo(cx-w/2+rx, cy-h/2);
-            ctx.lineTo(cx+w/2-rx, cy-h/2);
-            ctx.quadraticCurveTo(cx+w/2, cy-h/2, cx+w/2, cy-h/2+ry);
-            ctx.lineTo(cx+w/2, cy+h/2-ry);
-            ctx.quadraticCurveTo(cx+w/2, cy+h/2, cx+w/2-rx, cy+h/2);
-            ctx.lineTo(cx-w/2+rx, cy+h/2);
-            ctx.quadraticCurveTo(cx-w/2, cy+h/2, cx-w/2, cy+h/2-ry);
-            ctx.lineTo(cx-w/2, cy-h/2+ry);
-            ctx.quadraticCurveTo(cx-w/2, cy-h/2, cx-w/2+rx, cy-h/2);
-            ctx.stroke();
-          }
-        }
-        requestAnimationFrame(frame);
-      }
-      frame();
-    })();
-
-    // fill year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="/js/main.js"></script>
 </body>
 </html>
+    
