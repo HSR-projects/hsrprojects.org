@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSR-projects/ Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#0b0f14;
+  --bg2:#071024;
+  --accent:#8be9fd;
+  --accent2:#b388ff;
+  --accent3:#64ffda;
+  --muted:rgba(255,255,255,0.65);
+  --radius:16px;
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:white;overflow:hidden;position:relative;}
+body::before, body::after{
+  content:"";
+  position:absolute;width:400px;height:400px;border-radius:50%;filter:blur(120px);opacity:0.25;z-index:0;animation: float 20s infinite alternate;
+}
+body::before{background:var(--accent); top:-100px; left:-100px;}
+body::after{background:var(--accent2); bottom:-100px; right:-100px;}
+@keyframes float{from{transform:translate(0,0);}to{transform:translate(50px,-40px);}}
+
+/* Top bar */
+.topbar{
+  position:fixed;top:0;left:0;width:100%;height:60px;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(12px) saturate(180%);
+  display:flex;align-items:center;justify-content:flex-end;padding:0 20px;z-index:3;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.topbar img.avatar{
+  width:40px;height:40px;border-radius:50%;margin-right:12px;cursor:pointer;object-fit:cover;
+}
+.topbar span.username{margin-right:20px;font-weight:600;color:white;}
+
+/* Sidebar */
+.sidebar{
+  position:fixed;left:0;top:60px;width:220px;height:calc(100% - 60px);
+  background:rgba(255,255,255,0.02);
+  border-right:1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px) saturate(180%);
+  padding:20px;
+  display:flex;flex-direction:column;z-index:2;
+}
+.sidebar h2{font-size:20px;background: linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:40px;}
+.nav-item{font-size:15px;color:var(--muted);padding:12px;border-radius:10px;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;transition:all 0.2s ease;}
+.nav-item:hover{background:rgba(255,255,255,0.08);color:white;}
+.nav-item.active{background:rgba(255,255,255,0.12);color:white;}
+
+/* Main content */
+.main{
+  margin-left:240px;
+  margin-top:60px;
+  padding:30px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--radius);
+  padding:24px;
+  box-shadow:0 20px 60px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(12px) saturate(180%);
+  animation: fadeIn 0.8s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.card h2{margin-top:0;font-size:18px;background: linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.card p, .card li{margin:8px 0;color:var(--muted);}
+.input-field{width:100%;padding:10px;border-radius:10px;border:none;margin-bottom:10px;background:#1a1a1a;color:white;}
+.btn{padding:12px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#04111a;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.25s ease;margin-top:10px;width:100%;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.3);}
+#githubRepos{max-height:250px;overflow:auto;}
+#githubRepos li{padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.08);}
+
+/* Responsive */
+@media(max-width:900px){.sidebar{width:60px;padding:10px;}.sidebar h2{display:none;}.main{margin-left:70px;grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <img src="" alt="Avatar" class="avatar" id="topAvatar" title="Click to change avatar">
+  <span class="username" id="topUsername"></span>
+  <button class="btn" id="logoutBtn">Log Out</button>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>HSR-projects</h2>
+  <div class="nav-item active" onclick="showSection('news')">Latest News</div>
+  <div class="nav-item" onclick="showSection('profile')">Edit Your Profile</div>
+  <div class="nav-item" onclick="showSection('github')">GitHub</div>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+  <!-- Latest News -->
+  <div class="card" id="news">
+    <h2>Latest News</h2>
+    <p id="newsContent"></p>
+  </div>
+
+  <!-- Edit Profile -->
+  <div class="card" id="profile" style="display:none;">
+    <h2>Edit Your Profile</h2>
+    <input type="text" id="editUsername" class="input-field" placeholder="Username">
+    <input type="email" id="editEmail" class="input-field" placeholder="Email">
+    <input type="file" id="editAvatar" class="input-field" accept="image/*">
+    <button class="btn" id="saveProfile">Save Changes</button>
+  </div>
+
+  <!-- GitHub Section -->
+  <div class="card" id="github" style="display:none;">
+    <h2>GitHub Repositories</h2>
+    <input type="text" id="githubUsername" class="input-field" placeholder="Enter GitHub username">
+    <button class="btn" id="fetchGitHub">Fetch Repos</button>
+    <ul id="githubRepos"></ul>
+  </div>
+</div>
+
+<script>
+// Load user
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+if(!currentUser){
+    alert('No user logged in! Redirecting...');
+    window.location.href='login.html';
+} else {
+    document.getElementById('editUsername').value = currentUser.username;
+    document.getElementById('editEmail').value = currentUser.email;
+    document.getElementById('topUsername').innerText = currentUser.username;
+    document.getElementById('topAvatar').src = currentUser.avatar || 'https://via.placeholder.com/40';
+    document.getElementById('newsContent').innerText = currentUser.news || "Welcome to SaturnOS! Your personal dashboard is ready.";
+}
+
+// Navigation
+function showSection(section){
+    ['news','profile','github'].forEach(id=>{
+        document.getElementById(id).style.display = id===section?'block':'none';
+    });
+    document.querySelectorAll('.nav-item').forEach(item=>{
+        item.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+
+// Change avatar
+document.getElementById('topAvatar').addEventListener('click', ()=>{
+    document.getElementById('editAvatar').click();
+});
+
+document.getElementById('editAvatar').addEventListener('change', function(){
+    const file = this.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            document.getElementById('topAvatar').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Save profile
+document.getElementById('saveProfile').addEventListener('click', ()=>{
+    const newUsername = document.getElementById('editUsername').value.trim();
+    const newEmail = document.getElementById('editEmail').value.trim();
+    const avatarSrc = document.getElementById('topAvatar').src;
+    if(newUsername && newEmail){
+        currentUser.username = newUsername;
+        currentUser.email = newEmail;
+        currentUser.avatar = avatarSrc;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        document.getElementById('topUsername').innerText = newUsername;
+        alert('Profile updated successfully!');
+    } else {
+        alert('Please fill in both username and email.');
+    }
+});
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+    localStorage.removeItem('currentUser');
+    window.location.href='login.html';
+});
+
+// Fetch GitHub Repos
+document.getElementById('fetchGitHub').addEventListener('click', async ()=>{
+    const username = document.getElementById('githubUsername').value.trim();
+    const list = document.getElementById('githubRepos');
+    list.innerHTML = "Loading...";
+    if(username){
+        try{
+            const res = await fetch(`https://api.github.com/users/${username}/repos`);
+            const data = await res.json();
+            list.innerHTML = '';
+            if(Array.isArray(data) && data.length){
+                data.forEach(repo=>{
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${repo.html_url}" target="_blank" style="color:var(--accent3);text-decoration:none;">${repo.name}</a>`;
+                    list.appendChild(li);
+                });
+            } else {
+                list.innerHTML = "<li>No repositories found.</li>";
+            }
+        } catch(e){
+            list.innerHTML = "<li>Error fetching repos.</li>";
+        }
+    } else {
+        list.innerHTML = "<li>Please enter a GitHub username.</li>";
+    }
+});
+</script>
+
+</body>
+</html>

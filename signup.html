@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SaturnOS / Sign Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#0b0f14;
+  --bg2:#071024;
+  --accent:#8be9fd;
+  --accent2:#b388ff;
+  --accent3:#64ffda;
+  --muted:rgba(255,255,255,0.6);
+  --radius:14px;
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+}
+html,body{
+  height:100%;
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  color:white;
+}
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--radius);
+  padding:32px;
+  width:420px;
+  box-shadow:0 10px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter:blur(8px) saturate(120%);
+  text-align:center;
+}
+h1{
+  margin:0 0 20px;
+  font-size:22px;
+}
+label{
+  display:block;
+  text-align:left;
+  margin:10px 0 6px;
+  font-size:14px;
+  color:var(--muted);
+}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:0;
+  outline:none;
+  background:rgba(255,255,255,0.06);
+  color:white;
+  font-size:14px;
+}
+input:focus{
+  border:1px solid var(--accent);
+}
+.btn{
+  margin-top:20px;
+  padding:12px 18px;
+  border-radius:10px;
+  border:0;
+  width:100%;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#04111a;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+}
+.link{
+  margin-top:16px;
+  font-size:14px;
+}
+.link a{
+  color:var(--accent3);
+  text-decoration:none;
+}
+.error{
+  margin-top:12px;
+  font-size:13px;
+  color:#ff6b6b;
+}
+</style>
+</head>
+<body>
+<main class="card">
+  <h1>Create Account</h1>
+  <form id="signupForm" onsubmit="return false;">
+    <label for="username">Username</label>
+    <input type="text" id="username" required />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" required />
+
+    <label for="password">Password</label>
+    <input type="password" id="password" required />
+
+    <button type="submit" class="btn">Sign Up</button>
+    <p id="error" class="error"></p>
+  </form>
+  <p class="link">Already have an account? <a href="login.html">Log In</a></p>
+</main>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyA1Fb_OZso-JwaKTQ__tNrfUM8MGtkWSu0",
+    authDomain: "testv-54305.firebaseapp.com",
+    projectId: "testv-54305",
+    storageBucket: "testv-54305.firebasestorage.app",
+    messagingSenderId: "63441675947",
+    appId: "1:63441675947:web:ba4503fd6fa250bd9df9ee"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  const form = document.getElementById("signupForm");
+  const errorMsg = document.getElementById("error");
+
+  form.addEventListener("submit", ()=>{
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((cred)=>{
+        const user = cred.user;
+        localStorage.setItem("currentUser", JSON.stringify({username,email}));
+        window.location.href = "dashboard.html";
+      })
+      .catch((error)=>{
+        errorMsg.textContent = error.message;
+      });
+  });
+</script>
+</body>
+</html>
