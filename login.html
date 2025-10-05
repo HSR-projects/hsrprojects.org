@@ -170,5 +170,13 @@ input:focus{
   <p id="errorMsg" class="error"></p>
   <p class="link">Don't have an account? <a href="signup.html">Sign Up</a></p>
 </main>
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(() => {
+    console.log('Service Worker registered.');
+  });
+}
+</script>
+
 </body>
 </html>
