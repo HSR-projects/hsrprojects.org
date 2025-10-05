@@ -237,28 +237,31 @@
 
   <script src="/js/main.js"></script>
 </body>
-   <div id="hypr-offline" style="
+<!-- Hyprland-style Offline Notification -->
+<div id="hypr-offline" style="
     position: fixed;
     top: 24px;
-    right: 24px;
-    min-width: 220px;
-    max-width: 300px;
-    padding: 14px 20px;
-    border-radius: 14px;
-    background: rgba(30, 30, 40, 0.6);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 229, 255, 0.4);
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px) scale(0.95);
+    min-width: 250px;
+    max-width: 350px;
+    padding: 16px 24px;
+    border-radius: 16px;
+    background: rgba(20, 25, 35, 0.5);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 229, 255, 0.35);
     color: #00e5ff;
-    font-weight: 700;
+    font-weight: 800;
     font-family: Inter, sans-serif;
+    font-size: 14px;
+    text-align: center;
     box-shadow: 0 20px 50px rgba(0, 229, 255, 0.2);
     opacity: 0;
-    transform: translateY(-20px) scale(0.95);
     pointer-events: none;
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
     z-index: 9999;
 ">
-  ⚠️ You are offline
+    ⚠️ NO INTERNET CONNECT
 </div>
 
 <script>
@@ -266,13 +269,13 @@
 
   function showHyprOffline() {
     hyprOffline.style.opacity = '1';
-    hyprOffline.style.transform = 'translateY(0) scale(1)';
+    hyprOffline.style.transform = 'translateX(-50%) translateY(0) scale(1)';
 
-    // Hide after 3.5 seconds
+    // Optional: disappear after 4 seconds
     setTimeout(() => {
       hyprOffline.style.opacity = '0';
-      hyprOffline.style.transform = 'translateY(-20px) scale(0.95)';
-    }, 3500);
+      hyprOffline.style.transform = 'translateX(-50%) translateY(-20px) scale(0.95)';
+    }, 4000);
   }
 
   function checkOfflineStatus() {
@@ -284,8 +287,9 @@
   // Initial check
   window.addEventListener('load', checkOfflineStatus);
 
-  // Listen for offline/online events
+  // Listen for offline events
   window.addEventListener('offline', checkOfflineStatus);
 </script>
+
 
 </html>
