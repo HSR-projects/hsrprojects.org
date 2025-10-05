@@ -237,4 +237,36 @@
 
   <script src="/js/main.js"></script>
 </body>
+    <div id="offline-message" style="
+    display:none;
+    position:fixed;
+    top:0; left:0; right:0;
+    background:#ff4f4f;
+    color:white;
+    text-align:center;
+    padding:12px;
+    font-weight:bold;
+    z-index:9999;
+">
+  ⚠️ You are offline. Some features may not work.
+</div>
+
+<script>
+  function updateOnlineStatus() {
+    const msg = document.getElementById('offline-message');
+    if (!navigator.onLine) {
+      msg.style.display = 'block';
+    } else {
+      msg.style.display = 'none';
+    }
+  }
+
+  // Run on page load
+  window.addEventListener('load', updateOnlineStatus);
+
+  // Listen for changes
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+</script>
+
 </html>
