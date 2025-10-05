@@ -237,7 +237,6 @@
 
   <script src="/js/main.js"></script>
 </body>
-<!-- Hyprland-style Offline Notification -->
 <div id="hypr-offline" style="
     position: fixed;
     top: 24px;
@@ -265,30 +264,33 @@
 </div>
 
 <script>
-  const hyprOffline = document.getElementById('hypr-offline');
+const hyprOffline = document.getElementById('hypr-offline');
 
-  function showHyprOffline() {
+function showHyprOffline() {
     hyprOffline.style.opacity = '1';
     hyprOffline.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+}
 
-    // Optional: disappear after 4 seconds
-    setTimeout(() => {
-      hyprOffline.style.opacity = '0';
-      hyprOffline.style.transform = 'translateX(-50%) translateY(-20px) scale(0.95)';
-    }, 4000);
-  }
+function hideHyprOffline() {
+    hyprOffline.style.opacity = '0';
+    hyprOffline.style.transform = 'translateX(-50%) translateY(-20px) scale(0.95)';
+}
 
-  function checkOfflineStatus() {
+// Check connection status
+function updateOfflineStatus() {
     if (!navigator.onLine) {
-      showHyprOffline();
+        showHyprOffline(); // Show when offline
+    } else {
+        hideHyprOffline(); // Hide when online
     }
-  }
+}
 
-  // Initial check
-  window.addEventListener('load', checkOfflineStatus);
+// Initial check on page load
+window.addEventListener('load', updateOfflineStatus);
 
-  // Listen for offline events
-  window.addEventListener('offline', checkOfflineStatus);
+// Listen for offline/online events
+window.addEventListener('offline', updateOfflineStatus);
+window.addEventListener('online', updateOfflineStatus);
 </script>
 
 
