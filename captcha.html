@@ -1,77 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verify - HSR Projects</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, #0f0f12, #1a1a2e);
-      color: #ffffff;
-      text-align: center;
-    }
-    .captcha-box {
-      background: rgba(20, 20, 40, 0.9);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-      max-width: 400px;
-      width: 90%;
-      animation: fadeIn 1s ease-in-out;
-    }
-    h1 { font-weight: 800; margin-bottom: 20px; color: #00ffff; }
-    p { margin-bottom: 30px; font-weight: 400; }
-    button {
-      margin-top: 20px;
-      background: #00ffff;
-      border: none;
-      color: #0f0f12;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover { background: #00b3b3; }
-    @keyframes fadeIn { from {opacity: 0; transform: translateY(-20px);} to {opacity: 1; transform: translateY(0);} }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server Error - HSR Projects</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 20% 30%, #0a0a0a, #101018, #000);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Floating particles */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* Error box */
+.error-box {
+  position: relative;
+  z-index: 2;
+  background: rgba(15, 15, 25, 0.85);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 3rem 3.5rem;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+  animation: pulse 3s infinite ease-in-out;
+}
+
+/* Heading glitch */
+h1 {
+  font-size: 2rem;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffffa8;
+  font-weight: 800;
+  position: relative;
+  animation: glitch 2s infinite;
+}
+
+/* Text */
+p {
+  margin-top: 1rem;
+  font-weight: 400;
+  color: #ccc;
+}
+
+/* Retry button */
+button {
+  margin-top: 2rem;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00ffff, #0077ff);
+  color: #0f0f12;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #00b3b3;
+  transform: scale(1.05);
+}
+
+/* Glitch + pulse animations */
+@keyframes glitch {
+  0%, 100% { text-shadow: 2px 0 red, -2px 0 cyan; }
+  25% { text-shadow: -2px 0 red, 2px 0 cyan; }
+  50% { text-shadow: 2px 2px red, -2px -2px cyan; }
+  75% { text-shadow: -2px -2px red, 2px 2px cyan; }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.15); }
+  50% { box-shadow: 0 0 60px rgba(0, 255, 255, 0.4); }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
 </head>
 <body>
-  <div class="captcha-box">
-    <h1>Oops we have issues</h1>
-    <p>we have a server problem we are fixing on it..</p>
 
+<canvas id="bg"></canvas>
 
-  </div>
+<div class="error-box">
+  <h1>500 — Server Error</h1>
+  <p>Our systems are currently having a quiet meltdown.<br>We’re working silently to fix it.</p>
+  <button onclick="location.reload()">Retry</button>
+</div>
 
-  <script>
-    // If already verified, skip captcha
-    if(localStorage.getItem('captchaPassed') === 'true'){
-      window.location.href = "index.html";
-    }
+<script>
+// Create silent ambient particles
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let particles = [];
 
-    const form = document.getElementById('captchaForm');
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const response = grecaptcha.getResponse();
-      if(response.length === 0){
-        alert('Please complete the CAPTCHA');
-      } else {
-        // Mark as passed
-        localStorage.setItem('captchaPassed', 'true');
-        window.location.href = "index.html";
-      }
-    });
-  </script>
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 0.5,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.3
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(0,255,255,0.1)';
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    p.x += p.dx;
+    p.y += p.dy;
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
 </body>
 </html>
