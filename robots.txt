@@ -1,0 +1,47 @@
+User-agent: *
+Disallow: Board.js
+Disallow: Game.js
+Disallow: History.js
+Disallow: SimulationGame.js
+Disallow: ai.js
+Disallow: chess.css
+Disallow: piece.js
+Disallow: script.js
+Disallow: server.js
+Disallow: img/
+Disallow: signup.html
+Disallow: style.css
+Disallow: sw.js
+
+
+###                          ###        ###########################      
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+###                          ###        ##
+################################        ############################
+################################                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###                                  ##
+###                          ###           #########################                              
+
