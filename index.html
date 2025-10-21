@@ -38,6 +38,61 @@
   <meta name="google-site-verification" content="4sgE38LwskVkzPWotV2soBesCg3pxjYFAWtm72_buHI" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
+    <!-- 🎆 Happy Diwali Banner -->
+<div id="diwali-banner">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Diya_icon.svg" alt="Diwali Logo" class="diya-logo">
+  <span>✨ Happy Diwali from HSR Projects ✨</span>
+</div>
+
+<style>
+  #diwali-banner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #ff6bb5, #ffcc33, #00e5ff);
+    color: #050b14;
+    font-weight: 800;
+    font-size: 16px;
+    font-family: Inter, system-ui, sans-serif;
+    padding: 12px 24px;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 0 30px rgba(255, 204, 51, 0.6);
+    z-index: 10000;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: diwaliGlow 3s ease-in-out infinite alternate;
+  }
+
+  .diya-logo {
+    width: 28px;
+    height: 28px;
+    animation: flicker 1.2s infinite alternate ease-in-out;
+    filter: drop-shadow(0 0 6px rgba(255,200,100,0.9));
+  }
+
+  @keyframes flicker {
+    0% { transform: rotate(-2deg) scale(1); opacity: 0.85; }
+    50% { transform: rotate(2deg) scale(1.05); opacity: 1; }
+    100% { transform: rotate(-1deg) scale(0.98); opacity: 0.9; }
+  }
+
+  @keyframes diwaliGlow {
+    0% { box-shadow: 0 0 20px #ff6bb5; }
+    50% { box-shadow: 0 0 30px #ffcc33; }
+    100% { box-shadow: 0 0 25px #00e5ff; }
+  }
+
+  @media (max-width: 600px) {
+    #diwali-banner { font-size: 14px; padding: 10px 16px; }
+    .diya-logo { width: 22px; height: 22px; }
+  }
+</style>
+
+
+    
   <style>
     :root{
       --bg:#050b14; --glass:rgba(255,255,255,0.03);
