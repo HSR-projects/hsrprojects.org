@@ -29,6 +29,8 @@
   </script>
 
 
+    
+
 
 
   <meta charset="utf-8" />
@@ -38,39 +40,55 @@
   <meta name="google-site-verification" content="4sgE38LwskVkzPWotV2soBesCg3pxjYFAWtm72_buHI" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    <!-- 🎆 Happy Diwali Banner -->
+   <!-- 🎆 Happy Diwali Banner -->
 <div id="diwali-banner">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Diya_icon.svg" alt="Diwali Logo" class="diya-logo">
   <span>✨ Happy Diwali from HSR Projects ✨</span>
+  <button id="close-diwali">✖</button>
 </div>
 
 <style>
   #diwali-banner {
     position: fixed;
-    top: 0;
+    top: 70px; /* placed below navbar */
     left: 50%;
     transform: translateX(-50%);
     background: linear-gradient(90deg, #ff6bb5, #ffcc33, #00e5ff);
     color: #050b14;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 15px;
     font-family: Inter, system-ui, sans-serif;
-    padding: 12px 24px;
+    padding: 10px 22px;
     border-radius: 0 0 18px 18px;
-    box-shadow: 0 0 30px rgba(255, 204, 51, 0.6);
-    z-index: 10000;
+    box-shadow: 0 0 25px rgba(255, 204, 51, 0.6);
+    z-index: 9999;
     text-align: center;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     animation: diwaliGlow 3s ease-in-out infinite alternate;
   }
 
   .diya-logo {
-    width: 28px;
-    height: 28px;
-    animation: flicker 1.2s infinite alternate ease-in-out;
+    width: 26px;
+    height: 26px;
+    animation: flicker 1.4s infinite alternate ease-in-out;
     filter: drop-shadow(0 0 6px rgba(255,200,100,0.9));
+  }
+
+  #close-diwali {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #222;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  #close-diwali:hover {
+    opacity: 1;
   }
 
   @keyframes flicker {
@@ -86,12 +104,23 @@
   }
 
   @media (max-width: 600px) {
-    #diwali-banner { font-size: 14px; padding: 10px 16px; }
+    #diwali-banner { font-size: 13px; padding: 8px 14px; }
     .diya-logo { width: 22px; height: 22px; }
   }
 </style>
 
+<script>
+  // Allow user to close banner
+  document.addEventListener("DOMContentLoaded", () => {
+    const banner = document.getElementById("diwali-banner");
+    const closeBtn = document.getElementById("close-diwali");
+    closeBtn.addEventListener("click", () => banner.style.display = "none");
+  });
+</script>
 
+
+
+    
     
   <style>
     :root{
