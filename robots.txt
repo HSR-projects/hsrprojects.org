@@ -12,7 +12,7 @@ Disallow: img/
 Disallow: signup.html
 Disallow: style.css
 Disallow: sw.js
-Sitemap: sitemap.xml
+Sitemap: https://hsrprojects.org/sitemap.xml
 
 
 ###                          ###        ###########################       #########################
