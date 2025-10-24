@@ -4,7 +4,7 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://hsr-projects.github.io/hsrprojects.org/</loc>
+    <loc>https://hsrprojects.org/</loc>
     <lastmod>2025-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -12,7 +12,7 @@
 
   <!-- Pacman page -->
   <url>
-    <loc>https://hsr-projects.github.io/hsrprojects.org/pacman.html</loc>
+    <loc>https://hsrprojects.org/pacman.html</loc>
     <lastmod>2025-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -20,7 +20,7 @@
 
   <!-- Chess page -->
   <url>
-    <loc>https://hsr-projects.github.io/hsrprojects.org/chess.html</loc>
+    <loc>https://hsrprojects.org/chess.html</loc>
     <lastmod>2025-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -28,7 +28,14 @@
 
   <!-- CHMER release page -->
   <url>
-    <loc>https://github.com/HSR-projects/CHMER-chess-programing-language/releases/tag/CHMER</loc>
+    <loc>https://chmer.hsrprojects.org</loc>
+    <lastmod>2025-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <!--Song Library-->
+   <url>
+    <loc>https://song-lib.hsrprojects.org</loc>
     <lastmod>2025-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
