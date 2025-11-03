@@ -198,6 +198,86 @@
     }
   </style>
 </head>
+    <!-- HYPRLISH UNIVERSAL TRANSLATION BANNER -->
+<div id="hyprlishBar" style="
+  position:fixed;top:0;left:0;right:0;z-index:999999;
+  background:#7c3aed;color:white;padding:10px 14px;
+  font-family:system-ui, sans-serif;display:flex;align-items:center;justify-content:space-between;">
+  
+  <span style="font-weight:600;font-size:15px;">
+    🌐 यह वेबसाइट अंग्रेज़ी में है — नीचे भाषा चुनें या कोड लिखें और अनुवाद करें ✅
+  </span>
+
+  <div style="display:flex;gap:8px;">
+    <select id="hyprlishSelect" style="padding:6px;border-radius:6px;border:none;">
+      <option value="hi">हिन्दी (hi)</option>
+      <option value="gu">ગુજરાતી (gu)</option>
+      <option value="mr">मराठी (mr)</option>
+      <option value="pa">ਪੰਜਾਬੀ (pa)</option>
+      <option value="ta">தமிழ் (ta)</option>
+      <option value="te">తెలుగు (te)</option>
+      <option value="bn">বাংলা (bn)</option>
+      <option value="ur">اردو (ur)</option>
+      <option value="ar">العربية (ar)</option>
+      <option value="fr">Français (fr)</option>
+      <option value="es">Español (es)</option>
+      <option value="de">Deutsch (de)</option>
+      <option value="ru">Русский (ru)</option>
+      <option value="zh">中文 (zh)</option>
+    </select>
+
+    <input id="hyprlishISO" placeholder="ISO कोड (उदा: ja, sw, pt)" 
+      style="padding:6px;border-radius:6px;border:none;width:120px;">
+
+    <button id="hyprlishBtn" style="padding:6px 12px;border:none;border-radius:6px;background:black;color:white;cursor:pointer;">
+      अनुवाद करें
+    </button>
+  </div>
+</div>
+
+<script>
+// LibreTranslate public instance (no key needed)
+const API = "https://libretranslate.de/translate";
+
+// Collect visible text nodes
+function collectNodes(){
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const entries = [];
+  let n;
+  while((n = walker.nextNode())){
+    const t = n.nodeValue.trim();
+    if(t.length > 2) entries.push(n);
+  }
+  return entries;
+}
+
+async function translatePage(target){
+  const nodes = collectNodes();
+  for(let i = 0; i < nodes.length; i += 20){
+    const slice = nodes.slice(i, i+20);
+    const texts = slice.map(n => n.nodeValue);
+    const res = await fetch(API, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({q: texts, source: "en", target, format:"text"})
+    });
+    const data = await res.json();
+    for(let j = 0; j < data.length; j++){
+      slice[j].nodeValue = data[j];
+    }
+  }
+}
+
+document.getElementById("hyprlishBtn").onclick = () => {
+  const dropdown = document.getElementById("hyprlishSelect").value;
+  const custom = document.getElementById("hyprlishISO").value.trim();
+  const target = custom || dropdown;
+  if(!target) return alert("भाषा चुनें या ISO कोड लिखें 🌍");
+  translatePage(target);
+};
+</script>
+<!-- END HYPRLISH TRANSLATION BANNER -->
+
 <body>
   <canvas id="bgCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none"></canvas>
 
