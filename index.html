@@ -45,83 +45,6 @@
   <meta name="google-site-verification" content="4sgE38LwskVkzPWotV2soBesCg3pxjYFAWtm72_buHI" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-   <!-- 🎆 Happy Diwali Banner -->
-<div id="diwali-banner">
-  <img src="https://png.pngtree.com/png-clipart/20221023/original/pngtree-diwali-diya-icon-mandala-png-image_8713895.png" alt="Diwali Logo" class="diya-logo">
-  <span>✨ Happy Diwali from HSR Projects ✨</span>
-  <button id="close-diwali">✖</button>
-</div>
-
-<style>
-  #diwali-banner {
-    position: fixed;
-    top: 70px; /* placed below navbar */
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, #ff6bb5, #ffcc33, #00e5ff);
-    color: #050b14;
-    font-weight: 800;
-    font-size: 15px;
-    font-family: Inter, system-ui, sans-serif;
-    padding: 10px 22px;
-    border-radius: 0 0 18px 18px;
-    box-shadow: 0 0 25px rgba(255, 204, 51, 0.6);
-    z-index: 9999;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    animation: diwaliGlow 3s ease-in-out infinite alternate;
-  }
-
-  .diya-logo {
-    width: 26px;
-    height: 26px;
-    animation: flicker 1.4s infinite alternate ease-in-out;
-    filter: drop-shadow(0 0 6px rgba(255,200,100,0.9));
-  }
-
-  #close-diwali {
-    background: transparent;
-    border: none;
-    font-size: 16px;
-    margin-left: 10px;
-    cursor: pointer;
-    color: #222;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-  }
-  #close-diwali:hover {
-    opacity: 1;
-  }
-
-  @keyframes flicker {
-    0% { transform: rotate(-2deg) scale(1); opacity: 0.85; }
-    50% { transform: rotate(2deg) scale(1.05); opacity: 1; }
-    100% { transform: rotate(-1deg) scale(0.98); opacity: 0.9; }
-  }
-
-  @keyframes diwaliGlow {
-    0% { box-shadow: 0 0 20px #ff6bb5; }
-    50% { box-shadow: 0 0 30px #ffcc33; }
-    100% { box-shadow: 0 0 25px #00e5ff; }
-  }
-
-  @media (max-width: 600px) {
-    #diwali-banner { font-size: 13px; padding: 8px 14px; }
-    .diya-logo { width: 22px; height: 22px; }
-  }
-</style>
-
-<script>
-  // Allow user to close banner
-  document.addEventListener("DOMContentLoaded", () => {
-    const banner = document.getElementById("diwali-banner");
-    const closeBtn = document.getElementById("close-diwali");
-    closeBtn.addEventListener("click", () => banner.style.display = "none");
-  });
-</script>
 
 
 
@@ -198,85 +121,130 @@
     }
   </style>
 </head>
-    <!-- HYPRLISH UNIVERSAL TRANSLATION BANNER -->
-<div id="hyprlishBar" style="
-  position:fixed;top:0;left:0;right:0;z-index:999999;
-  background:#7c3aed;color:white;padding:10px 14px;
-  font-family:system-ui, sans-serif;display:flex;align-items:center;justify-content:space-between;">
-  
-  <span style="font-weight:600;font-size:15px;">
-    🌐 यह वेबसाइट अंग्रेज़ी में है — नीचे भाषा चुनें या कोड लिखें और अनुवाद करें ✅
-  </span>
+  <div id="hyprlish-float-btn">🌐</div>
 
-  <div style="display:flex;gap:8px;">
-    <select id="hyprlishSelect" style="padding:6px;border-radius:6px;border:none;">
-      <option value="hi">हिन्दी (hi)</option>
-      <option value="gu">ગુજરાતી (gu)</option>
-      <option value="mr">मराठी (mr)</option>
-      <option value="pa">ਪੰਜਾਬੀ (pa)</option>
-      <option value="ta">தமிழ் (ta)</option>
-      <option value="te">తెలుగు (te)</option>
-      <option value="bn">বাংলা (bn)</option>
-      <option value="ur">اردو (ur)</option>
-      <option value="ar">العربية (ar)</option>
-      <option value="fr">Français (fr)</option>
-      <option value="es">Español (es)</option>
-      <option value="de">Deutsch (de)</option>
-      <option value="ru">Русский (ru)</option>
-      <option value="zh">中文 (zh)</option>
-    </select>
-
-    <input id="hyprlishISO" placeholder="ISO कोड (उदा: ja, sw, pt)" 
-      style="padding:6px;border-radius:6px;border:none;width:120px;">
-
-    <button id="hyprlishBtn" style="padding:6px 12px;border:none;border-radius:6px;background:black;color:white;cursor:pointer;">
-      अनुवाद करें
-    </button>
-  </div>
+<div id="hyprlish-panel">
+  <span>Translate page:</span>
+  <select id="hyprlish-language-select"></select>
+  <button id="hyprlish-translate-btn">Go</button>
 </div>
 
+<style>
+#hyprlish-float-btn {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  width: 38px;
+  height: 38px;
+  background: #0e0e0f;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  border: 1px solid #444;
+  z-index: 999999;
+  transition: 0.2s;
+}
+#hyprlish-float-btn:hover {
+  background: #3f8cff;
+  border-color: #3f8cff;
+}
+
+#hyprlish-panel {
+  position: fixed;
+  top: 60px;
+  left: 14px;
+  background: #0e0e0f;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  color: white;
+  font-family: "Inter", sans-serif;
+  z-index: 999999;
+}
+#hyprlish-panel select, #hyprlish-panel button {
+  background: #1c1c1e;
+  border: 1px solid #333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+#hyprlish-panel button:hover {
+  background: #3f8cff;
+  border-color: #3f8cff;
+  cursor: pointer;
+}
+</style>
+
 <script>
-// LibreTranslate public instance (no key needed)
-const API = "https://libretranslate.de/translate";
+const API = "https://libretranslate.de";
 
-// Collect visible text nodes
-function collectNodes(){
+document.getElementById("hyprlish-float-btn").onclick = () => {
+  const panel = document.getElementById("hyprlish-panel");
+  panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+};
+
+async function loadLanguages() {
+  const res = await fetch(API + "/languages");
+  const langs = await res.json();
+  const select = document.getElementById("hyprlish-language-select");
+  langs.forEach(l => {
+    const opt = document.createElement("option");
+    opt.value = l.code;
+    opt.textContent = l.name;
+    select.appendChild(opt);
+  });
+}
+loadLanguages();
+
+async function translateBatch(sentences, target) {
+  const res = await fetch(API + "/translate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      q: sentences,
+      source: "auto",
+      target: target,
+      format: "text"
+    })
+  });
+  return await res.json();
+}
+
+async function translatePage(targetLang) {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const entries = [];
-  let n;
-  while((n = walker.nextNode())){
-    const t = n.nodeValue.trim();
-    if(t.length > 2) entries.push(n);
-  }
-  return entries;
-}
+  let nodes = [];
+  let node;
 
-async function translatePage(target){
-  const nodes = collectNodes();
-  for(let i = 0; i < nodes.length; i += 20){
-    const slice = nodes.slice(i, i+20);
-    const texts = slice.map(n => n.nodeValue);
-    const res = await fetch(API, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({q: texts, source: "en", target, format:"text"})
-    });
-    const data = await res.json();
-    for(let j = 0; j < data.length; j++){
-      slice[j].nodeValue = data[j];
-    }
+  while (node = walker.nextNode()) {
+    const text = node.nodeValue.trim();
+    if (text.length > 3) nodes.push(node);
+  }
+
+  const batchSize = 30;
+  for (let i = 0; i < nodes.length; i += batchSize) {
+    const batch = nodes.slice(i, i + batchSize);
+    const texts = batch.map(n => n.nodeValue);
+    try {
+      const translated = await translateBatch(texts, targetLang);
+      translated.forEach((t, idx) => {
+        batch[idx].nodeValue = t.translatedText;
+      });
+    } catch(e) { console.log(e); }
   }
 }
 
-document.getElementById("hyprlishBtn").onclick = () => {
-  const dropdown = document.getElementById("hyprlishSelect").value;
-  const custom = document.getElementById("hyprlishISO").value.trim();
-  const target = custom || dropdown;
-  if(!target) return alert("भाषा चुनें या ISO कोड लिखें 🌍");
-  translatePage(target);
+document.getElementById("hyprlish-translate-btn").onclick = () => {
+  const lang = document.getElementById("hyprlish-language-select").value;
+  translatePage(lang);
 };
 </script>
-<!-- END HYPRLISH TRANSLATION BANNER -->
 
 <body>
   <canvas id="bgCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none"></canvas>
