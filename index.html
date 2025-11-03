@@ -121,130 +121,95 @@
     }
   </style>
 </head>
-  <div id="hyprlish-float-btn">🌐</div>
+  
+<div id="hyprlish-btn">🌐</div>
 
 <div id="hyprlish-panel">
-  <span>Translate page:</span>
-  <select id="hyprlish-language-select"></select>
-  <button id="hyprlish-translate-btn">Go</button>
+  <span style="font-size:14px;">Translate this page</span>
+  <select id="hyprlish-lang"></select>
+  <button id="hyprlish-go">Translate</button>
 </div>
 
 <style>
-#hyprlish-float-btn {
-  position: fixed;
-  top: 14px;
-  left: 14px;
-  width: 38px;
-  height: 38px;
-  background: #0e0e0f;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  color: white;
-  font-size: 18px;
-  border: 1px solid #444;
-  z-index: 999999;
-  transition: 0.2s;
+#hyprlish-btn {
+  position: fixed; top:14px; left:14px; width:40px; height:40px;
+  background:#111; border-radius:50%; border:1px solid #333;
+  color:white; display:flex; justify-content:center; align-items:center;
+  cursor:pointer; z-index:999999; font-size:18px;
+  transition:.25s;
 }
-#hyprlish-float-btn:hover {
-  background: #3f8cff;
-  border-color: #3f8cff;
-}
+#hyprlish-btn:hover { background:#3f8cff; border-color:#3f8cff; }
 
 #hyprlish-panel {
-  position: fixed;
-  top: 60px;
-  left: 14px;
-  background: #0e0e0f;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #333;
-  display: none;
-  flex-direction: column;
-  gap: 8px;
-  color: white;
-  font-family: "Inter", sans-serif;
-  z-index: 999999;
+  position: fixed; top:62px; left:14px; background:#111;
+  border:1px solid #333; border-radius:10px;
+  padding:10px; display:none; flex-direction:column; gap:8px;
+  z-index:999999; font-family:system-ui; color:white;
 }
 #hyprlish-panel select, #hyprlish-panel button {
-  background: #1c1c1e;
-  border: 1px solid #333;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
+  background:#1c1c1e; border:1px solid #333;
+  color:white; padding:6px 10px; border-radius:6px;
 }
-#hyprlish-panel button:hover {
-  background: #3f8cff;
-  border-color: #3f8cff;
-  cursor: pointer;
-}
+#hyprlish-panel button:hover { background:#3f8cff; border-color:#3f8cff; cursor:pointer; }
 </style>
 
 <script>
-const API = "https://libretranslate.de";
+const CORS = "https://cors.isomorphic-git.org/";
+const API = "https://libretranslate.de"; // You can change to your own LibreTranslate instance
 
-document.getElementById("hyprlish-float-btn").onclick = () => {
-  const panel = document.getElementById("hyprlish-panel");
-  panel.style.display = panel.style.display === "flex" ? "none" : "flex";
-};
+const btn = document.getElementById("hyprlish-btn");
+const panel = document.getElementById("hyprlish-panel");
+const langSelect = document.getElementById("hyprlish-lang");
+const goBtn = document.getElementById("hyprlish-go");
 
+btn.onclick = () => panel.style.display = (panel.style.display === "flex" ? "none" : "flex");
+
+// ✅ Load real languages (no dummy)
 async function loadLanguages() {
-  const res = await fetch(API + "/languages");
+  const res = await fetch(CORS + API + "/languages");
   const langs = await res.json();
-  const select = document.getElementById("hyprlish-language-select");
   langs.forEach(l => {
-    const opt = document.createElement("option");
-    opt.value = l.code;
-    opt.textContent = l.name;
-    select.appendChild(opt);
+    const o = document.createElement("option");
+    o.value = l.code;
+    o.textContent = l.name + " — " + l.code;
+    langSelect.appendChild(o);
   });
 }
 loadLanguages();
 
-async function translateBatch(sentences, target) {
-  const res = await fetch(API + "/translate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      q: sentences,
-      source: "auto",
-      target: target,
-      format: "text"
-    })
+// ✅ Translate in batches to avoid overload
+async function translateTexts(texts, target) {
+  const res = await fetch(CORS + API + "/translate", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ q:texts, source:"auto", target:target, format:"text" })
   });
   return await res.json();
 }
 
-async function translatePage(targetLang) {
+async function translatePage(target) {
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   let nodes = [];
   let node;
-
-  while (node = walker.nextNode()) {
-    const text = node.nodeValue.trim();
-    if (text.length > 3) nodes.push(node);
+  while(node = walker.nextNode()) {
+    const t = node.nodeValue.trim();
+    if(t.length > 3 && !node.parentNode.closest("script,style")) nodes.push(node);
   }
 
-  const batchSize = 30;
-  for (let i = 0; i < nodes.length; i += batchSize) {
-    const batch = nodes.slice(i, i + batchSize);
-    const texts = batch.map(n => n.nodeValue);
-    try {
-      const translated = await translateBatch(texts, targetLang);
-      translated.forEach((t, idx) => {
-        batch[idx].nodeValue = t.translatedText;
-      });
-    } catch(e) { console.log(e); }
+  const batchSize = 25;
+  for(let i=0;i<nodes.length;i+=batchSize){
+    const slice = nodes.slice(i,i+batchSize);
+    const texts = slice.map(n=>n.nodeValue);
+    try{
+      const results = await translateTexts(texts, target);
+      results.forEach((r, idx)=>slice[idx].nodeValue = r.translatedText);
+    }catch(e){}
   }
 }
 
-document.getElementById("hyprlish-translate-btn").onclick = () => {
-  const lang = document.getElementById("hyprlish-language-select").value;
-  translatePage(lang);
-};
+goBtn.onclick = () => translatePage(langSelect.value);
 </script>
+
 
 <body>
   <canvas id="bgCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none"></canvas>
