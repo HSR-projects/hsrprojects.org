@@ -2,82 +2,97 @@
 <html lang="en">
 <head>
   <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TIC-tac-TOE doc HSR Projects</title>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TIC-tac-TOE doc HSR Projects</title>
+  <style>
+    :root{
+      --bg:#050b14; --glass:rgba(255,255,255,0.03);
+      --cyan:#00e5ff; --pink:#ff6bb5; --muted:#9aa4b2; --card:rgba(255,255,255,0.02);
+      --radius:12px; --shadow:0 20px 50px rgba(0,0,0,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{
+      height:100%; margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto;
+      background:linear-gradient(180deg,var(--bg),#071322);
+      color:#e7f7ff;
+      -webkit-font-smoothing:antialiased;
+    }
 
-<style>
-  :root{
-    --bg:#050b14; --glass:rgba(255,255,255,0.03);
-    --cyan:#00e5ff; --pink:#ff6bb5; --muted:#9aa4b2; --card:rgba(255,255,255,0.02);
-    --radius:12px; --shadow:0 20px 50px rgba(0,0,0,0.6);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%; margin:0; font-family:Inter,system-ui,Segoe UI,Roboto; background:linear-gradient(180deg,var(--bg),#071322); color:#e7f7ff; -webkit-font-smoothing:antialiased;}
-  a{color:inherit;text-decoration:none;}
+    /* Header/Nav */
+    header{
+      position:fixed;
+      top:16px;
+      left:16px;
+      right:16px;
+      z-index:50;
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.04);
+      backdrop-filter:blur(6px);
+      max-width:1280px;
+      margin:0 auto;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:36px;height:36px;border-radius:8px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--cyan),var(--pink));
+      color:#00131a;font-weight:900
+    }
 
-  /* Header/Nav */
-  header{
-    position:fixed;
-    top:16px;
-    left:16px;
-    right:16px;
-    z-index:50;
-  }
-  .nav{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    padding:10px 14px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,0.04);
-    backdrop-filter:blur(6px);
-    max-width:1280px;
-    margin:0 auto;
-  }
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--pink));color:#00131a;font-weight:900}
-  .links{display:flex;gap:10px;align-items:center}
-  .links a{padding:8px 10px;border-radius:8px;color:var(--muted);font-weight:700;font-size:13px}
-  .links a:hover{color:var(--cyan)}
+    /* Hyprland-style offline popup */
+    #offline-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      padding: 28px 42px;
+      border-radius: 16px;
+      background: rgba(20,25,35,0.5);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0,229,255,0.35);
+      font-weight: 800;
+      font-size: 18px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,229,255,0.2);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index:100;
+      max-width: 400px;
+      line-height:1.5;
+    }
+    #offline-popup.show{
+      opacity:1;
+      transform: translate(-50%, -50%) scale(1);
+    }
 
-  /* Hyprland-style offline popup */
-  #offline-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.95);
-    padding: 28px 42px;
-    border-radius: 16px;
-    background: rgba(20,25,35,0.5);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(0,229,255,0.35);
-    font-weight: 800;
-    font-size: 18px;
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0,229,255,0.2);
-    opacity: 0;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    z-index:100;
-    max-width: 400px;
-  }
-  #offline-popup.show{
-    opacity:1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+    /* Highlighted text (non-clickable links) */
+    .highlight {
+      background: rgba(0,229,255,0.15);
+      color: var(--cyan);
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
 
-  body {
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:shown;
-  }
-
-</style>
+    body {
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -89,28 +104,37 @@
           <div style="font-size:12px;color:var(--muted)">HSR-projects</div>
         </div>
       </div>
-  
     </div>
   </header>
 
   <!-- Hyprland-style popup -->
-  <div id="offline-popup">Project Update: Waving Goodbye to the Tic-Tac-Toe Game at hemugame1.w3spaces.com
-Date: November 14, 2025
-Organisation: HSR-projects
-Author: hemuk477 (Project Creator)
-It is with a mixture of nostalgia and excitement for future projects that I announce the official discontinuation and subsequent shutdown of the Tic-Tac-Toe game hosted at www.hemugame1.w3spaces.com.
-Since its launch, this simple game has been a wonderful learning experience for me as a developer and, I hope, a source of simple fun for its players. The project successfully served its purpose as a practical exercise in web development and hosting.
-Why the Change?
-This decision comes after a thorough evaluation of personal project goals and a shift in focus toward new learning opportunities and technologies. The maintenance of this specific, small-scale site is no longer aligned with my current development path. The underlying platform may also have changing requirements which makes a transition necessary.
-What Happens Next?
-The website hemugame1.w3spaces.com will be deactivated and removed from hosting on or around November 21, 2025.
-I appreciate all the interactions and visits the site has received over its operational period.
-Looking Ahead
-While this specific URL is closing down, the core experience of Tic-Tac-Toe remains universally available across countless other platforms. For those interested in seeing what I'm working on next, please stay tuned to our main portfolio or future project announcements.
-Thank you all for your support and understanding.
-Sincerely,
-HSR-projects
-Project Creator,</div>
+  <div id="offline-popup">
+    Project Update: Waving Goodbye to the Tic-Tac-Toe Game at 
+    <span class="highlight">hemugame1.w3spaces.com</span><br><br>
+    Date: November 14, 2025<br>
+    Organisation: HSR-projects<br>
+    Author: hemuk477 (Project Creator)<br><br>
+    It is with a mixture of nostalgia and excitement for future projects that I announce the official discontinuation and subsequent shutdown of the Tic-Tac-Toe game hosted at 
+    <span class="highlight">www.hemugame1.w3spaces.com</span>.<br><br>
+    Since its launch, this simple game has been a wonderful learning experience for me as a developer and, I hope, a source of simple fun for its players. The project successfully served its purpose as a practical exercise in web development and hosting.<br><br>
+    <strong>Why the Change?</strong><br>
+    This decision comes after a thorough evaluation of personal project goals and a shift in focus toward new learning opportunities and technologies. The maintenance of this specific, small-scale site is no longer aligned with my current development path. The underlying platform may also have changing requirements which makes a transition necessary.<br><br>
+    <strong>What Happens Next?</strong><br>
+    The website <span class="highlight">hemugame1.w3spaces.com</span> will be deactivated and removed from hosting on or around November 14, 2025.<br><br>
+    I appreciate all the interactions and visits the site has received over its operational period.<br><br>
+    <strong>Looking Ahead</strong><br>
+    While this specific URL is closing down, the core experience of Tic-Tac-Toe remains universally available across countless other platforms. For those interested in seeing what I'm working on next, please stay tuned to our main portfolio or future project announcements.<br><br>
+    Thank you all for your support and understanding.<br><br>
+    Sincerely,<br>
+    HSR-projects<br>
+    Project Creator
+  </div>
 
+  <script>
+    // Fade-in popup on page load
+    window.onload = () => {
+      document.getElementById("offline-popup").classList.add("show");
+    };
+  </script>
 </body>
 </html>
