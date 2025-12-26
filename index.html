@@ -46,39 +46,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-  .donate-minimal {
-    border: 2px dashed #4CAF50; /* Green dashed border */
-    background-color: #f9fdf9;
-    padding: 20px;
-    text-align: center;
+  .small-banner-strip {
+    background-color: #f0f4f8; /* Light grey/blue background */
+    border: 1px solid #d1d5db;
+    color: #333;
+    padding: 8px 15px; /* Very small padding */
     font-family: sans-serif;
-    border-radius: 8px;
-    margin: 20px 0;
-  }
-
-  .donate-minimal h3 {
-    color: #2E7D32;
-    margin: 0 0 15px 0;
-  }
-
-  .donate-link {
-    color: #fff;
-    background-color: #4CAF50;
-    padding: 10px 15px;
-    text-decoration: none;
+    font-size: 13px; /* Smaller text */
+    text-align: center;
     border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Space between text and button */
+  }
+
+  .small-btn {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 4px 12px; /* Small button size */
+    text-decoration: none;
+    border-radius: 3px;
     font-weight: bold;
+    font-size: 12px;
   }
   
-  .donate-link:hover {
-      background-color: #45a049;
-  }
+  .small-btn:hover { background-color: #0056b3; }
 </style>
 
-<div class="donate-minimal">
-  <h3>Please donate to make our software way better.</h3>
-  <br>
-  <a href="YOUR_DONATION_LINK_HERE" class="donate-link">CLICK HERE</a>
+<div class="small-banner-strip">
+  <span>Please donate to make our software way better.</span>
+  <a href="YOUR_LINK_HERE" class="small-btn">CLICK HERE</a>
 </div>
 
 
