@@ -443,5 +443,38 @@ window.addEventListener('offline', updateOfflineStatus);
 window.addEventListener('online', updateOfflineStatus);
 </script>
 
+<style>
+  .small-banner-strip {
+    background-color: #f0f4f8; /* Light grey/blue background */
+    border: 1px solid #d1d5db;
+    color: #333;
+    padding: 8px 15px; /* Very small padding */
+    font-family: sans-serif;
+    font-size: 13px; /* Smaller text */
+    text-align: center;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Space between text and button */
+  }
+
+  .small-btn {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 4px 12px; /* Small button size */
+    text-decoration: none;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  .small-btn:hover { background-color: #0056b3; }
+</style>
+
+<div class="small-banner-strip">
+  <span>Please donate to make our software way better.</span>
+  <a href="YOUR_LINK_HERE" class="small-btn">CLICK HERE</a>
+</div>
 
 </html>
