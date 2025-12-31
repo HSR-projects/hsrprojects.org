@@ -19,60 +19,54 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <script>
+  <script>
 (function() {
   try {
-    // Modern JS features check
-    const modern =
+    // 1️⃣ Modern JS features required for the site
+    const modern = 
       'fetch' in window &&
       'Promise' in window &&
       'Proxy' in window &&
       'BigInt' in window &&
       'WebAssembly' in window &&
-      'IntersectionObserver' in window &&
-      'ResizeObserver' in window &&
       'structuredClone' in window &&
       'crypto' in window && window.crypto.subtle &&
+      'IntersectionObserver' in window &&
+      'ResizeObserver' in window &&
       'CSS' in window && CSS.supports('color','var(--x)') &&
       typeof Intl !== 'undefined' &&
       typeof Intl.RelativeTimeFormat === 'function';
 
-    if(!modern) throw 0; // block very old engines
+    if(!modern) throw 0;
 
+    // 2️⃣ Detect OS (Windows, macOS, Linux, BSD, Android)
     const ua = navigator.userAgent || '';
     const platform = navigator.platform || '';
+    const unsupportedOS =
+      /(Windows NT 5|Windows NT 6\.0|Windows NT 6\.1|Windows NT 6\.2|Windows NT 6\.3)/.test(ua) || // Windows XP/Vista/7/8
+      /(Mac OS X 10_[0-5])/.test(ua) || // macOS < 10.15
+      /Android [0-9]|Android [1-9]/.test(ua) || // Android < 10
+      /(FreeBSD|NetBSD|OpenBSD)/i.test(platform + ua) || // old BSD
+      (/Linux/.test(platform) && !('fetch' in window)); // old Linux engines
 
-    // ---------- Windows ----------
-    const winMatch = /Windows NT (\d+)/.exec(ua);
-    const windowsVersion = winMatch ? parseInt(winMatch[1],10) : null;
+    // 3️⃣ Hardware capability check
+    const minMemoryGB = 3;
+    const hasEnoughMemory = !navigator.deviceMemory || navigator.deviceMemory >= minMemoryGB;
+    const hasEnoughCPU = !navigator.hardwareConcurrency || navigator.hardwareConcurrency >= 4;
 
-    // ---------- macOS ----------
-    const macMatch = /Mac OS X (\d+)_(\d+)/.exec(ua);
-    const macVersion = macMatch ? parseInt(macMatch[1],10) : null;
+    // 4️⃣ WebGL check for rendering
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const webglSupported = !!gl;
 
-    // ---------- Android ----------
-    const androidMatch = /Android (\d+)/.exec(ua);
-    const androidVersion = androidMatch ? parseInt(androidMatch[1],10) : null;
-
-    // ---------- BSD detection ----------
-    const isOldBSD = /(FreeBSD|NetBSD|OpenBSD)/i.test(platform + ua);
-
-    // ---------- Linux ----------
-    const isOldLinux = /Linux/.test(platform) && !('fetch' in window);
-
-    // ---------- Determine unsupported ----------
-    const unsupported =
-      (windowsVersion && windowsVersion < 10) ||
-      (macVersion && macVersion < 10) ||
-      (androidVersion && androidVersion < 10) ||
-      isOldBSD ||
-      isOldLinux ||
-      !modern;
-
-    if(unsupported) location.replace('/unsupported.html');
+    // 5️⃣ Decide if unsupported
+    if (unsupportedOS || !hasEnoughMemory || !hasEnoughCPU || !webglSupported) {
+      location.replace('unsupported.html');
+    }
 
   } catch(e) {
-    location.replace('/unsupported.html');
+    // fallback for very old engines
+    location.replace('unsupported.html');
   }
 })();
 </script>
