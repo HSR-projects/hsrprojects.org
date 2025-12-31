@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  try{
+    const modern =
+      'fetch' in window &&
+      'Promise' in window &&
+      'Proxy' in window &&
+      'BigInt' in window &&
+      'WebAssembly' in window &&
+      'crypto' in window && window.crypto.subtle;
+    if(modern) throw 0; // redirect real users away
+  }catch{
+    return; // allow unsupported users to see this page
+  }
+  // anyone who passes feature check gets redirected to home
+  location.replace('404.html');
+})();
+</script>
+
+<meta charset="UTF-8">
+<title>Unsupported Environment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  :root {
+    --bg: #0b0f14;
+    --fg: #e6e9ef;
+    --muted: #8b93a7;
+    --accent: #ff4d4d;
+    --glass: rgba(255,255,255,0.03);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    background: radial-gradient(
+      circle at top left,
+      #121826 0%,
+      var(--bg) 60%
+    );
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .panel {
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    padding: 2.5rem 2.8rem;
+    max-width: 460px;
+    text-align: left;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.4px;
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.08),
+      transparent
+    );
+    margin: 1.6rem 0;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--accent);
+    letter-spacing: 0.3px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="panel">
+    <div class="status">
+      <span class="dot"></span>
+      Environment unsupported
+    </div>
+
+    <div class="divider"></div>
+
+    <h1>Your browser or operating system is not supported</h1>
+    <p>
+      This experience requires a modern, fully‑capable web platform.
+      Please update your browser or operating system to continue.
+    </p>
+  </div>
+
+</body>
+</html>
