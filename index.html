@@ -50,7 +50,7 @@
       (/Linux/.test(platform) && !('fetch' in window)); // old Linux engines
 
     // 3️⃣ Hardware capability check
-    const minMemoryGB = 3;
+    const minMemoryMB = 512;
     const hasEnoughMemory = !navigator.deviceMemory || navigator.deviceMemory >= minMemoryGB;
     const hasEnoughCPU = !navigator.hardwareConcurrency || navigator.hardwareConcurrency >= 4;
 
