@@ -19,7 +19,64 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <script>(function(){try{if(!(typeof Promise!=='undefined'&&typeof Proxy!=='undefined'&&typeof BigInt!=='undefined'&&'fetch'in window&&'WebAssembly'in window&&'crypto'in window&&window.crypto.subtle&&'IntersectionObserver'in window&&'ResizeObserver'in window&&'CSS'in window&&CSS.supports('color','var(--x)')&&typeof Intl!=='undefined'&&typeof Intl.RelativeTimeFormat==='function'&&'structuredClone'in window))throw 0;new Function('let a=1n;const b=structuredClone({a});return b.a;')();}catch{location.replace('unsupported.html');}})();</script>
+    <script>
+(function() {
+  try {
+    // Modern JS features check
+    const modern =
+      'fetch' in window &&
+      'Promise' in window &&
+      'Proxy' in window &&
+      'BigInt' in window &&
+      'WebAssembly' in window &&
+      'IntersectionObserver' in window &&
+      'ResizeObserver' in window &&
+      'structuredClone' in window &&
+      'crypto' in window && window.crypto.subtle &&
+      'CSS' in window && CSS.supports('color','var(--x)') &&
+      typeof Intl !== 'undefined' &&
+      typeof Intl.RelativeTimeFormat === 'function';
+
+    if(!modern) throw 0; // block very old engines
+
+    const ua = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+
+    // ---------- Windows ----------
+    const winMatch = /Windows NT (\d+)/.exec(ua);
+    const windowsVersion = winMatch ? parseInt(winMatch[1],10) : null;
+
+    // ---------- macOS ----------
+    const macMatch = /Mac OS X (\d+)_(\d+)/.exec(ua);
+    const macVersion = macMatch ? parseInt(macMatch[1],10) : null;
+
+    // ---------- Android ----------
+    const androidMatch = /Android (\d+)/.exec(ua);
+    const androidVersion = androidMatch ? parseInt(androidMatch[1],10) : null;
+
+    // ---------- BSD detection ----------
+    const isOldBSD = /(FreeBSD|NetBSD|OpenBSD)/i.test(platform + ua);
+
+    // ---------- Linux ----------
+    const isOldLinux = /Linux/.test(platform) && !('fetch' in window);
+
+    // ---------- Determine unsupported ----------
+    const unsupported =
+      (windowsVersion && windowsVersion < 10) ||
+      (macVersion && macVersion < 10) ||
+      (androidVersion && androidVersion < 10) ||
+      isOldBSD ||
+      isOldLinux ||
+      !modern;
+
+    if(unsupported) location.replace('/unsupported.html');
+
+  } catch(e) {
+    location.replace('/unsupported.html');
+  }
+})();
+</script>
+
 <meta http-equiv="X-Frame-Options" content="DENY">
 
 
