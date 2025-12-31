@@ -45,7 +45,66 @@
   <meta name="google-site-verification" content="4sgE38LwskVkzPWotV2soBesCg3pxjYFAWtm72_buHI" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
+<style>
+  #newYearBanner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: #fff;
+    padding: 10px 20px;
+    font-family: sans-serif;
+    font-size: 16px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    display: none; /* hidden by default */
+    z-index: 1000;
+  }
+</style>
+</head>
+<body>
 
+<div id="newYearBanner"></div>
+
+<script>
+  function showNewYearBanner() {
+    const banner = document.getElementById('newYearBanner');
+
+    const now = new Date();
+    let nextYear = now.getFullYear() + 1;
+    const newYearDate = new Date(`${nextYear}-01-01T00:00:00`);
+
+    // Calculate time difference in seconds
+    let diff = Math.floor((newYearDate - now) / 1000);
+
+    if (diff <= 0) return; // Already passed, no need to show
+
+    banner.style.display = 'block';
+
+    function updateBanner() {
+      if (diff <= 0) {
+        banner.style.display = 'none'; // remove banner
+        clearInterval(timerInterval);
+        return;
+      }
+
+      const days = Math.floor(diff / (3600*24));
+      const hours = Math.floor((diff % (3600*24)) / 3600);
+      const minutes = Math.floor((diff % 3600) / 60);
+      const seconds = diff % 60;
+
+      banner.textContent = `🎉 ${nextYear} is coming! Countdown: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      diff--;
+    }
+
+    updateBanner(); // initial call
+    const timerInterval = setInterval(updateBanner, 1000);
+  }
+
+  showNewYearBanner();
+</script>
     
     
   <style>
