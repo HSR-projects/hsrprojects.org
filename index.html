@@ -19,57 +19,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script>
-(function() {
-  try {
-    // 1️⃣ Modern JS features required for the site
-    const modern = 
-      'fetch' in window &&
-      'Promise' in window &&
-      'Proxy' in window &&
-      'BigInt' in window &&
-      'WebAssembly' in window &&
-      'structuredClone' in window &&
-      'crypto' in window && window.crypto.subtle &&
-      'IntersectionObserver' in window &&
-      'ResizeObserver' in window &&
-      'CSS' in window && CSS.supports('color','var(--x)') &&
-      typeof Intl !== 'undefined' &&
-      typeof Intl.RelativeTimeFormat === 'function';
 
-    if(!modern) throw 0;
-
-    // 2️⃣ Detect OS (Windows, macOS, Linux, BSD, Android)
-    const ua = navigator.userAgent || '';
-    const platform = navigator.platform || '';
-    const unsupportedOS =
-      /(Windows NT 5|Windows NT 6\.0|Windows NT 6\.1|Windows NT 6\.2|Windows NT 6\.3)/.test(ua) || // Windows XP/Vista/7/8
-      /(Mac OS X 10_[0-5])/.test(ua) || // macOS < 10.15
-      /Android [0-9]|Android [1-9]/.test(ua) || // Android < 10
-      /(FreeBSD|NetBSD|OpenBSD)/i.test(platform + ua) || // old BSD
-      (/Linux/.test(platform) && !('fetch' in window)); // old Linux engines
-
-    // 3️⃣ Hardware capability check
-    const minMemoryMB = 512;
-    const hasEnoughMemory = !navigator.deviceMemory || navigator.deviceMemory >= minMemoryGB;
-    const hasEnoughCPU = !navigator.hardwareConcurrency || navigator.hardwareConcurrency >= 4;
-
-    // 4️⃣ WebGL check for rendering
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    const webglSupported = !!gl;
-
-    // 5️⃣ Decide if unsupported
-    if (unsupportedOS || !hasEnoughMemory || !hasEnoughCPU || !webglSupported) {
-      location.replace('unsupported.html');
-    }
-
-  } catch(e) {
-    // fallback for very old engines
-    location.replace('unsupported.html');
-  }
-})();
-</script>
 
 <meta http-equiv="X-Frame-Options" content="DENY">
 
